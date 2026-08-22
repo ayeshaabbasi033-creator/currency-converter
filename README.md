@@ -9,8 +9,8 @@ Lightweight command-line currency converter. Live exchange rates, SQLite-cached,
 Run the universal installer — it installs the package and automatically configures your `PATH`:
 
 ```bash
-git clone https://github.com/ayeshaabbasi033-creator/currency-converter-cli
-cd currency-converter-cli
+git clone https://github.com/ayeshaabbasi033-creator/currency-converter
+cd currency-converter
 python install.py
 ```
 
