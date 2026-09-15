@@ -15,6 +15,7 @@ python install.py
 ```
 
 *(On Windows, you can also double-click `install.bat`)*
+this project is most useful for windows machine
 
 ### Manual Install via pip
 

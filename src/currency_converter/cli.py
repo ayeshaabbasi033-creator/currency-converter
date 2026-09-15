@@ -12,7 +12,7 @@ from currency_converter.db import (
     get_history,
     log_conversion,
 )
-from currency_converter.path_util import ensure_path
+from currency_converter.path_util import ensure_path 
 
 
 def _validate_currency(code: str, label: str) -> bool:
