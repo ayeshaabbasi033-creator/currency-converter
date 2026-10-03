@@ -1,12 +1,12 @@
 # currency-converter-cli
 
-Lightweight command-line currency converter. Live exchange rates, SQLite-cached, full conversion history — zero third-party runtime dependencies (stdlib only: `urllib`, `sqlite3`, `argparse`).
+Lightweight command-line currency converter. Live exchange rates, SQLite-cached, full conversion history, and zero third-party runtime dependencies (stdlib only: `urllib`, `sqlite3`, `argparse`).
 
 ## Install
 
-### Automatic Setup (Recommended for any new computer)
+### Automatic Setup (Recommended)
 
-Run the universal installer — it installs the package and automatically configures your `PATH`:
+Run the installer. It installs the package via pip and checks whether the `currency` command is ready to use:
 
 ```bash
 git clone https://github.com/ayeshaabbasi033-creator/currency-converter
@@ -15,19 +15,14 @@ python install.py
 ```
 
 *(On Windows, you can also double-click `install.bat`)*
-this project is most useful for windows machine
+
+If the `currency` command isn't on your PATH yet, the installer will print manual instructions for adding it. It does not modify your system PATH or Windows Registry automatically. You can always run the tool via `python -m currency_converter` in the meantime.
 
 ### Manual Install via pip
 
 ```bash
 pip install .
 ```
-
-If your Python scripts directory was not on `PATH`, simply run:
-```bash
-python -m currency_converter setup-path
-```
-
 
 ## Usage
 
@@ -36,6 +31,11 @@ currency convert 100 USD PKR
 currency convert 50 EUR JPY
 currency history
 currency history --limit 20
+```
+
+Or, without relying on PATH at all:
+```bash
+python -m currency_converter convert 100 USD PKR
 ```
 
 Example output:
@@ -54,7 +54,7 @@ Error: unknown to currency 'USF'. Did you mean USD?
 
 ## How it works
 
-- **Rates**: [open.er-api.com](https://www.exchangerate-api.com/docs/free) — free, no signup, no API key, updated daily, 160+ currencies.
+- **Rates**: [open.er-api.com](https://www.exchangerate-api.com/docs/free), free, no signup, no API key, updated daily, 160+ currencies.
 - **Cache**: fetched rates are stored in SQLite (`~/.currency_converter/data.db`) and reused for 60 minutes, cutting repeat API calls. The `source` field in the output shows `live` vs `cache`.
 - **History**: every conversion is logged with timestamp, amount, rate, and result.
 
@@ -84,18 +84,17 @@ CREATE TABLE conversion_history (
 
 **`'currency' is not recognized as an internal or external command`**
 
-If the command isn't immediately found after installation:
+This means your Python Scripts directory isn't on your system PATH. You have two options:
 
-1. **One-command automatic PATH fix**:
-   ```bash
-   python -m currency_converter setup-path
-   ```
-2. **Or run directly via module anytime**:
+1. **Run via module (no PATH changes needed)**:
    ```bash
    python -m currency_converter convert 100 USD PKR
    ```
-3. Restart your terminal window for the newly updated environment variables to take effect.
+2. **Add it to PATH manually**:
+   - **Windows**: Settings → System → About → Advanced system settings → Environment Variables → edit your User `Path` → add your Python Scripts folder
+   - **macOS/Linux**: add `export PATH="$PATH:<scripts_dir>"` to your shell config file (e.g. `~/.zshrc` or `~/.bashrc`)
 
+   Run `python install.py` to see your exact Scripts directory path printed out.
 
 ## Stack
 
@@ -107,3 +106,7 @@ Python 3.10+, stdlib only. No `requests`, no ORM, no external services beyond th
 pip install -e ".[dev]"
 pytest
 ```
+
+## Design note
+
+An earlier version of this tool automatically modified the user's PATH environment variable (via the Windows Registry on Windows, or shell config files on macOS/Linux) on every single run, without asking. This was removed in favor of an explicit, read-only check with manual instructions, since silently modifying system settings without user consent is poor practice for a CLI tool.

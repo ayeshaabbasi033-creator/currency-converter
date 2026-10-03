@@ -12,7 +12,6 @@ from currency_converter.db import (
     get_history,
     log_conversion,
 )
-from currency_converter.path_util import ensure_path 
 
 
 def _validate_currency(code: str, label: str) -> bool:
@@ -71,14 +70,7 @@ def cmd_history(args: argparse.Namespace) -> None:
         print(f"{ts}  {amount} {base} -> {result:.2f} {target}  (rate: {rate:.6f})")
 
 
-def cmd_setup_path(args: argparse.Namespace) -> None:
-    ensure_path(silent=False)
-
-
 def main() -> None:
-    # Silently ensure the scripts directory is in PATH on any machine
-    ensure_path(silent=True)
-
     parser = argparse.ArgumentParser(prog="currency", description="Lightweight live currency converter")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -92,15 +84,9 @@ def main() -> None:
     history_parser.add_argument("--limit", type=int, default=10)
     history_parser.set_defaults(func=cmd_history)
 
-    setup_path_parser = subparsers.add_parser(
-        "setup-path", help="Add the currency command to your user PATH permanently"
-    )
-    setup_path_parser.set_defaults(func=cmd_setup_path)
-
     args = parser.parse_args()
     args.func(args)
 
 
 if __name__ == "__main__":
     main()
-
