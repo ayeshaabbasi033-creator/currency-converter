@@ -2,6 +2,10 @@
 
 Lightweight command-line currency converter. Live exchange rates, SQLite-cached, full conversion history, and zero third-party runtime dependencies (stdlib only: `urllib`, `sqlite3`, `argparse`).
 
+## Why I built this
+
+I started the currency converter project as my first project, I wanted to build something simple but genuinely usable by other people, not just a coursework exercise. It works cross-platform (Windows, Mac, and Linux), and pulls live exchange rate data from a public API so you can convert between over 160 currencies. One thing I focused on was reducing unnecessary internet calls: once a rate is fetched, it's cached locally for 60 minutes, so repeated conversions don't need to hit the API every single time. It's meant to be a lightweight, inbuilt command-line tool, something you can run directly without needing a browser open.
+
 ## Install
 
 ### Automatic Setup (Recommended)
@@ -9,7 +13,7 @@ Lightweight command-line currency converter. Live exchange rates, SQLite-cached,
 Run the installer. It installs the package via pip and checks whether the `currency` command is ready to use:
 
 ```bash
-git clone https://github.com/ayeshaabbasi033-creator/currency-converter
+git clone https://github.com/ayeshassan/currency-converter
 cd currency-converter
 python install.py
 ```
@@ -107,6 +111,9 @@ pip install -e ".[dev]"
 pytest
 ```
 
-## Design note
+## What I learned
 
-An earlier version of this tool automatically modified the user's PATH environment variable (via the Windows Registry on Windows, or shell config files on macOS/Linux) on every single run, without asking. This was removed in favor of an explicit, read-only check with manual instructions, since silently modifying system settings without user consent is poor practice for a CLI tool.
+- How to design a local caching system using SQLite with a TTL (time-to-live), so the app doesn't call the live API more than necessary, and how to check whether cached data has expired before deciding to trust it.
+- How to implement the Damerau-Levenshtein edit-distance algorithm, to catch typos in currency codes and suggest the closest valid match before wasting an API call on an invalid request.
+- A real lesson in both software ethics and security: an earlier version of this project automatically modified the Windows Registry and system PATH every time it ran, without telling the user. Fixing it taught me two things at once, first, that silently modifying system settings without consent is poor practice, regardless of intent, and second, as a cybersecurity student, it gave me a concrete, hands-on example of a persistence mechanism (a technique software uses to maintain access or control by modifying system configuration), the same general category of technique used by both legitimate installers and malware. I redesigned the tool to be transparent instead, it now only checks and informs, it never silently changes system settings on its own.
+- How to structure a small Python project properly, separating concerns across different files (API calls, database logic, validation, and the command-line interface itself) instead of writing everything in one script.
