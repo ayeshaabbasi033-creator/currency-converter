@@ -1,10 +1,10 @@
 # currency-converter-cli
 
-Lightweight command-line currency converter. Live exchange rates, SQLite-cached, full conversion history, and zero third-party runtime dependencies (stdlib only: `urllib`, `sqlite3`, `argparse`).
+Lightweight command-line currency converter you can run straight from the terminal, no browser needed. Live exchange rates, SQLite-cached, full conversion history, and zero third-party runtime dependencies (stdlib only: `urllib`, `sqlite3`, `argparse`).
 
 ## Why I built this
 
-I started the currency converter project as my first project, I wanted to build something simple but genuinely usable by other people, not just a coursework exercise. It works cross-platform (Windows, Mac, and Linux), and pulls live exchange rate data from a public API so you can convert between over 160 currencies. One thing I focused on was reducing unnecessary internet calls: once a rate is fetched, it's cached locally for 60 minutes, so repeated conversions don't need to hit the API every single time. It's meant to be a lightweight, inbuilt command-line tool, something you can run directly without needing a browser open.
+This was one of the first projects I ever built, so I kept the idea small on purpose. I wanted to make something other people could actually pick up and use on their own machines, not just something that ran on my laptop. I wanted a quick way to check an exchange rate without opening a browser or a website, so I made a tool that gives you the answer in one line, straight from the terminal. I also wanted it to feel fast, so it remembers each rate for an hour (cached in SQLite) instead of asking the internet every time. The first time it printed a real answer, I remember thinking: wow, it actually works, and I'm the one who made it work.
 
 ## Install
 
@@ -98,7 +98,7 @@ This means your Python Scripts directory isn't on your system PATH. You have two
    - **Windows**: Settings → System → About → Advanced system settings → Environment Variables → edit your User `Path` → add your Python Scripts folder
    - **macOS/Linux**: add `export PATH="$PATH:<scripts_dir>"` to your shell config file (e.g. `~/.zshrc` or `~/.bashrc`)
 
-   Run `python install.py` to see your exact Scripts directory path printed out.
+      To find your Scripts folder, run `python -c "import sysconfig; print(sysconfig.get_path('scripts'))"`.
 
 ## Stack
 
